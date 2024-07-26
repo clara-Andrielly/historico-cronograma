@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start; /* Alinha os itens na parte superior */
+                margin: 0;
+                padding: 0 20px; /* Remove o padding superior */
+                position: relative; /* Para que o botão fique posicionado em relação ao body */
+                min-height: 100vh; /* Garante que o body ocupe pelo menos 100% da altura da tela */
+            }
+
+            h1 {
+                text-align: center;
+                width: 100%;
+                color: #333;
+                margin-bottom: 10px; /* Reduz a margem inferior do título */
+            }
+
+            .table-container {
+                width: 80%; /* Define a largura do contêiner */
+                max-height: 400px; /* Altura máxima do contêiner para permitir rolagem */
+                overflow-y: auto; /* Permite rolagem vertical */
+                border: 2px solid #2196F3; /* Azul */
+                border-radius: 8px; /* Bordas arredondadas */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                background-color: #fff; /* Cor de fundo */
+                margin-top: 10px; /* Adiciona margem superior para espaçamento */
+            }
+
+            table {
+                width: 100%; /* Tabela ocupa toda a largura do contêiner */
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: 15px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #2196F3; /* Azul */
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            td {
+                border-bottom: 1px solid #ddd;
+            }
+
+            a {
+                color: #2196F3; /* Azul */
+                text-decoration: none;
+                padding: 8px 12px;
+                border: 1px solid #2196F3; /* Azul */
+                border-radius: 4px;
+                transition: background-color 0.3s, color 0.3s;
+            }
+
+            a:hover {
+                background-color: #2196F3; /* Azul */
+                color: white;
+            }
+
+            .acertos {
+                color: #2196F3; /* Azul */
+            }
+
+            .erros {
+                color: red;
+            }
+
+            footer {
+                position: absolute; /* Permite que o footer fique fixo na parte inferior */
+                bottom: 0; /* Alinha o footer ao fundo */
+                width: 100%; /* Faz com que o footer ocupe toda a largura da tela */
+                background-color: #2196F3; /* Azul */
+                color: white; /* Texto branco */
+                text-align: center; /* Centraliza o texto */
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra no topo do footer */
+                height: 40px; /* Altura do footer */
+            }
+
+            .add-link {
+                position: absolute; /* Posiciona o link em relação ao body */
+                bottom: 60px; /* Distância do fundo, acima do footer */
+                right: 20px; /* Distância da direita */
+                background-color: #2196F3; /* Azul */
+                color: white; /* Texto branco */
+                border: none; /* Remove a borda */
+                border-radius: 4px;
+                padding: 10px 20px;
+                cursor: pointer;
+                text-decoration: none; /* Remove sublinhado */
+                transition: background-color 0.3s;
+            }
+
+            .add-link:hover {
+                background-color: #1e88e5; /* Azul mais escuro ao passar o mouse */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Avaliações Corrigidas</h1>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Avaliação</th>
+                    <th>Data</th>
+                    <th>Acertos</th>
+                    <th>Erros</th>
+                </tr>
+                {% for avaliacao in avaliacoes %}
+                    <tr>
+                        <td>{{ avaliacao.descricao.nome }}</td>
+                        <td>{{ avaliacao.materia.nome }}</td>
+                        <td>{{ avaliacao.data | date:"d/m/Y" }}</td>
+                        <td class="{% if avaliacao.erros > avaliacao.acertos %} {% else %}acertos{% endif %}">
+                            {{ avaliacao.acertos }}
+                        </td>
+                        <td class="{% if avaliacao.erros > avaliacao.acertos %}erros{% endif %}">
+                            {{ avaliacao.erros }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <a href="{% url 'new_avaliacao' %}" class="add-link">Adicionar nova avaliação</a>
+        <footer>
+            <p>Rodrigo dev</p>
+        </footer>
+    </body>
+</html>
